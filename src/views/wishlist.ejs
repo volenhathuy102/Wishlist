@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist App</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 40px; }
+        .container { display: flex; gap: 20px; width: 1000px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); flex: 1; }
+        .item-card { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+        .item-card img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; margin-right: 15px; }
+        .btn-buy { background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2 style="color: #1a73e8;">NHẬP SẢN PHẨM</h2>
+            <form action="/wishlist/add" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="text" name="productName" placeholder="Tên sản phẩm..." required style="padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                <input type="text" name="price" id="priceInput" placeholder="Giá tiền..." style="padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                <input type="text" name="imageUrl" placeholder="Link ảnh sản phẩm..." style="padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                
+                <button type="submit" style="background: #1a73e8; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">THÊM SẢN PHẨM</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>DANH SÁCH SẢN PHẨM</h2>
+            <div id="list-container">
+                <% items.forEach(item => { %>
+                    <div class="item-card">
+                        <img src="<%= item.imageUrl || 'https://cdn-icons-png.flaticon.com/512/1162/1162456.png' %>">
+                        <div style="flex: 1;">
+                            <strong><%= item.productName %></strong>
+                            <p style="color: red; margin: 0;"><%= item.price %> đ</p>
+                        </div>
+                        <form action="/wishlist/bought/<%= item._id %>" method="POST">
+                            <button type="submit" class="btn-buy">mua</button>
+                        </form>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('priceInput').oninput = (e) => {
+            let val = e.target.value.replace(/\D/g, "");
+            e.target.value = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        };
+    </script>
+</body>
+</html>
