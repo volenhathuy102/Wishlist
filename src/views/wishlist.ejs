@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - <%= username %>
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-title: #111827;
+            --text-price: #dc2626;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Thanh Header trên cùng */
+        .top-nav {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: flex-end;
+            /* Đẩy hết sang phải */
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .user-info {
+            font-weight: 600;
+            color: var(--text-title);
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-logout {
+            background: #fee2e2;
+            color: #ef4444;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            border: 1px solid #fecaca;
+        }
+
+        .btn-logout:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f9fafb;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+            color: var(--text-title);
+        }
+
+        .product-price {
+            color: var(--text-price);
+            font-weight: 700;
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .btn-buy {
+            flex: 2;
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #d1fae5;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .btn-buy:hover {
+            background: #d1fae5;
+        }
+
+        .btn-edit {
+            flex: 1;
+            background: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fde68a;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .btn-edit:hover {
+            background: #fde68a;
+        }
+
+        .sidebar {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        .btn-add {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #4338ca;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-nav">
+        <div class="user-info">
+            <i class="fa-solid fa-user-circle"></i>
+            <%= username %>
+        </div>
+        <a href="/auth/logout" class="btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+        </a>
+    </div>
+
+    <div class="dashboard">
+        <div class="content-area">
+            <div class="wishlist-grid">
+                <% if (items.length> 0) { %>
+                    <% items.forEach(item=> { %>
+                        <div class="product-card">
+                            <img src="<%= item.imageUrl || 'https://cdn-icons-png.flaticon.com/512/1162/1162456.png' %>"
+                                alt="Product">
+                            <div class="product-info">
+                                <h3 class="product-name">
+                                    <%= item.productName %>
+                                </h3>
+                                <div class="product-price">
+                                    <%= item.price %> đ
+                                </div>
+                                <div class="btn-group">
+                                    <form action="/wishlist/bought/<%= item._id %>" method="POST" style="flex:2">
+                                        <button type="submit" class="btn-buy">ĐÃ MUA</button>
+                                    </form>
+                                    <button class="btn-edit"
+                                        onclick="editProduct('<%= item._id %>', '<%= item.productName %>', '<%= item.price %>', '<%= item.imageUrl %>')">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <div
+                                    style="grid-column: 1/-1; text-align: center; padding: 80px; background: white; border-radius: 20px; color: #9ca3af; border: 2px dashed #e5e7eb;">
+                                    <i class="fa-solid fa-box-open"
+                                        style="font-size: 3rem; margin-bottom: 15px;"></i><br>
+                                    Danh sách trống... !
+                                </div>
+                                <% } %>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h2 style="margin-top: 0; font-size: 1.3rem;">✨ Thêm món đồ mới</h2>
+            <form action="/wishlist/add" method="POST" class="form-group">
+                <label>TÊN SẢN PHẨM</label>
+                <input type="text" name="productName" placeholder="Tên sản phẩm" required>
+
+                <label>GIÁ DỰ KIẾN (VNĐ)</label>
+                <input type="text" name="price" id="priceInput" placeholder="0">
+
+                <label>LINK ẢNH SẢN PHẨM</label>
+                <input type="text" name="imageUrl" placeholder="Dán link ảnh tại đây...">
+
+                <button type="submit" class="btn-add">THÊM VÀO DANH SÁCH</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Format giá tiền tự động
+        document.getElementById('priceInput').oninput = (e) => {
+            let val = e.target.value.replace(/\D/g, "");
+            e.target.value = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        };
+
+        // Hàm Sửa full thông tin bao gồm Link ảnh
+        function editProduct(id, oldName, oldPrice, oldImg) {
+            const newName = prompt("Sửa tên sản phẩm:", oldName);
+            if (newName === null) return;
+
+            const newPrice = prompt("Sửa giá tiền:", oldPrice);
+            if (newPrice === null) return;
+
+            const newImg = prompt("Sửa link ảnh:", oldImg);
+            if (newImg === null) return;
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/wishlist/edit/${id}`;
+
+            const data = { productName: newName, price: newPrice, imageUrl: newImg };
+            for (const key in data) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký - Wishlist App</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #111827;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .link a {
+            color: #4f46e5;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-card">
+        <h2>Tạo tài khoản</h2>
+        <form action="/auth/register" method="POST">
+            <div class="form-group">
+                <label>TÊN ĐĂNG NHẬP</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>EMAIL</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>MẬT KHẨU</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">ĐĂNG KÝ</button>
+        </form>
+        <div class="link">Đã có tài khoản? <a href="/auth/login">Đăng nhập ngay</a></div>
+    </div>
+</body>
+
+</html>
